@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web.mappers.BoardMapper">
+	
+	<insert id="write" parameterType="Map">
+		INSERT INTO SCMS_BBS
+		  ( 	NTT_SJ
+				, NTT_CN
+				, NTT_NO
+				, PARENT_NO
+				, NOTICE_YN
+				, ATCH_FILE_ID
+				, TEMP_COL_1
+				, TEMP_COL_2
+				, DEL_YN
+				, CRT_ID
+				, CRT_DT
+				, CRT_IP_ADDR
+			)
+		VALUES
+		    (
+		        #{NTT_SJ}
+			  , #{NTT_CN}
+			  , #{NTT_NO}
+			  , #{PARENT_NO}
+			  , #{NOTICE_YN}
+			  , #{ATCH_FILE_ID}
+			  , #{TEMP_COL_1}
+			  , #{TEMP_COL_2}
+			  ,'N'
+			  ,	#{CRT_ID}
+			  , NOW()
+			  , #{CRT_IP_ADDR}
+			)
+	</insert>
+	
+
+</mapper>
