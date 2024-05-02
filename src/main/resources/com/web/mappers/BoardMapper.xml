@@ -2,8 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.web.mappers.BoardMapper">
-	
-	<insert id="write" parameterType="Map">
+	<select id="list" resultType="com.web.vo.BoardVO">
+		select no,title,mem_id,writeDate,hit,levNo
+		from(
+			select rownum rnum,no,title,mem_id,writeDate,hit,levNo
+			from(
+			select no,title,mem_id,writeDate,hit,levNo
+			from qboard
+			order by refNo desc,ordNo
+			)
+			)where rnum between #{startRow} and #{endRow}
+	</select>
+
+	<insert id="write" >
 		INSERT INTO SCMS_BBS
 		  ( 	NTT_SJ
 				, NTT_CN
@@ -20,20 +31,22 @@
 			)
 		VALUES
 		    (
-		        #{NTT_SJ}
-			  , #{NTT_CN}
-			  , #{NTT_NO}
-			  , #{PARENT_NO}
-			  , #{NOTICE_YN}
-			  , #{ATCH_FILE_ID}
-			  , #{TEMP_COL_1}
-			  , #{TEMP_COL_2}
+		        #{nttSj}
+			  , #{nttCn}
+			  , #{nttNo}
+			  , #{parentNo}
+			  , #{noticeYn}
+			  , #{AtchFileId}
+			  , #{tempCol1}
+			  , #{tempCol2}
 			  ,'N'
-			  ,	#{CRT_ID}
+			  ,	#{crtId}
 			  , NOW()
-			  , #{CRT_IP_ADDR}
+			  , #{crtIpAddr}
 			)
 	</insert>
-	
+
+
+
 
 </mapper>

@@ -1,16 +1,15 @@
 package com.web.mappers;
 
 
-import org.apache.ibatis.annotations.Param;
+import com.web.vo.BoardVO;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 public interface BoardMapper {
 
-	public List<?> list(Map param) throws Exception;
+	public List<BoardVO> list(BoardVO boardVO) throws Exception;
 
+	public int write(BoardVO boardVO) throws Exception;
 
-	public int write(Map param) throws Exception;
+	public int count(BoardVO boardVO) throws Exception;
 }

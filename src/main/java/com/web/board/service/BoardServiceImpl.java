@@ -2,6 +2,7 @@ package com.web.board.service;
 
 import com.web.mappers.BoardMapper;
 
+import com.web.vo.BoardVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,13 +18,18 @@ public class BoardServiceImpl implements BoardService {
 
 
 	@Override
-	public List<?> list(Map param) throws Exception {
-		return mapper.list(param);
+	public List<BoardVO> list(BoardVO boardVO) throws Exception {
+		return mapper.list(boardVO);
 	}
 
 	@Override
-	public int write(Map param) throws Exception {
-		return mapper.write(param);
+	public int write(BoardVO boardVO) throws Exception {
+		return mapper.write(boardVO);
 
+	}
+
+	@Override
+	public int count(BoardVO boardVO) throws Exception {
+		return 0;
 	}
 }

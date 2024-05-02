@@ -1,6 +1,8 @@
 package com.web.board.service;
 
 
+import com.web.vo.BoardVO;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
@@ -8,10 +10,12 @@ import java.util.Map;
 public interface BoardService {
 	
 //	//리스트
-	public List<?> list(Map param) throws Exception;
+	public List<?> list(BoardVO boardVO) throws Exception;
 
 
-	public int write(Map param)throws Exception;
+	public int write(BoardVO boardVO)throws Exception;
+
+	public int count(BoardVO boardVO)throws Exception;
 //
 //	/*
 //	 * mapper에만전체데이터 갯수 public long getTotalRow(PageObject pageObject) throws Exception;

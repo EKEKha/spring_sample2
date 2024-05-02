@@ -18,7 +18,8 @@
 
 
 
-<!--    <resources mapping="/resources/**" location="/resources/" />-->
+    <!--    자바에서 WebMvcConfigurer 로도 설정가능 -->
+    <mvc:resources mapping="/**" location="/resources/" />
 
     <beans:bean id="multipartResolver"
                 class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
