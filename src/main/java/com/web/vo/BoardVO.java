@@ -6,15 +6,18 @@ import java.util.Date;
 
 @Data
 public class BoardVO extends CommonVO{
-	private long nttId;
-	private String nttSj;
-	private String nttCn;
-	private String nttNo;
-	private long parentNo;
-	private String noticeYn;
-	private String AtchFileId;
-	private String tempCol1;
-	private String tempCol2;
+	private long ntt_id;
+	private String ntt_sj;
+	private String ntt_cn;
+	private String ntt_no;
+	private long parent_no;
+	private String notice_yn;
+	private String atch_file_id;
+	private String temp_col_1;
+	private String temp_col_2;
+
+
+
 
 
 }

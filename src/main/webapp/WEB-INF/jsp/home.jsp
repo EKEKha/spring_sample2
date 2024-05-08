@@ -65,7 +65,8 @@
                         <c:forEach var="vo"  items="${main}" >
                             <div class="property-item">
                                 <a href="prodcutDetail.do?prod_id=${vo.prod_id }" class="img">
-                                    <img src="upload/product/s_${vo.prod_image}" alt="Image" class="img-fluid" />
+<%--                                    <img src="upload/product/s_${vo.prod_image}" alt="Image" class="img-fluid" />--%>
+                                    <img src="images/img_1.jpg" alt="Image" class="img-fluid" />
                                 </a>
 
 

@@ -8,16 +8,18 @@ import java.util.Date;
 @Data
 public class CommonVO{
 
-	private String crtId;
+	private String del_yn;
 
-	private Date crtDt;
+	private String crt_id;
 
-	private String crtIpAddr;
+	private Date crt_dt;
 
-	private String updId;
+	private String crt_ip_addr;
 
-	private Date updDt;
+	private String upd_id;
 
-	private String updIpAddr;
+	private Date upd_dt;
+
+	private String upd_ip_addr;
 
 }

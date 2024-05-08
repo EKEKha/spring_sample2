@@ -68,7 +68,7 @@
             >
               <li class="active"><a href="/">Home</a></li>
               <li class="has-children">
-                <a href="/">상품</a>
+                <a href="javascript:void(0)">상품</a>
                 <ul class="dropdown">
                   <li><a href="productList.do?prod_kind=racket">Racket</a></li>
                   <li><a href="productList.do?prod_kind=acc">ACC</a></li>
@@ -77,7 +77,7 @@
               </li>
               
               <li class="has-children">
-                <a href="/">서비스</a>
+                <a href="javascript:void(0)">서비스</a>
                 <ul class="dropdown">
                   <li><a href="review/list.do">Review</a></li>
                   <li><a href="board/list.do">QNA</a></li>

@@ -5,6 +5,7 @@ import com.sun.org.slf4j.internal.Logger;
 import com.sun.org.slf4j.internal.LoggerFactory;
 import com.web.board.service.BoardService;
 import com.web.vo.BoardVO;
+import com.webjjang.util.PageObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,9 +25,11 @@ public class BoardController {
     private BoardService boardServiceImpl;
 
     @RequestMapping("/board/list.do")
-    public String list(HttpServletRequest request, BoardVO boardVO, ModelMap model) throws Exception {
+    public String list(HttpServletRequest request, BoardVO boardVO, ModelMap model, PageObject pageObject) throws Exception {
 
-
+        List list = boardServiceImpl.list(pageObject);
+        model.addAttribute("list", list);
+        model.addAttribute("pageObject", pageObject);
 
 //        List list = boardServiceImpl.list(boardVO);
 //        int count = boardServiceImpl.count(boardVO);

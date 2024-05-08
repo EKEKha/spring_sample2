@@ -53,15 +53,15 @@ h4 {
          
                 
             <tr>
-                 <th id="td_left"><label for="nttSj">제목</label></th>
+                 <th id="td_left"><label for="ntt_sj">제목</label></th>
                  <td>
-             <input name="nttSj" type="text"id="nttSj" required="required" size="67" class="form-control"/>
+             <input name="ntt_sj" type="text"id="ntt_sj" required="required" size="67" class="form-control"/>
                   </td>
             </tr>
          
              <tr>
-               <th id="td_left"><label for="nttCn">내용</label></th>
-               <td><textarea id="nttCn" name="nttCn"
+               <th id="td_left"><label for="ntt_cn">내용</label></th>
+               <td><textarea id="ntt_cn" name="ntt_cn"
                 cols="80" rows="10" required="required" class="form-control"style="font-size:12px;"></textarea>
                 </td>
             </tr>

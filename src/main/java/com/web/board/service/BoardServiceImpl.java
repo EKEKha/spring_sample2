@@ -3,6 +3,7 @@ package com.web.board.service;
 import com.web.mappers.BoardMapper;
 
 import com.web.vo.BoardVO;
+import com.webjjang.util.PageObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,8 +19,8 @@ public class BoardServiceImpl implements BoardService {
 
 
 	@Override
-	public List<BoardVO> list(BoardVO boardVO) throws Exception {
-		return mapper.list(boardVO);
+	public List<BoardVO> list(PageObject pageObject) throws Exception {
+		return mapper.list(pageObject);
 	}
 
 	@Override

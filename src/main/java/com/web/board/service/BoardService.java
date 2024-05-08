@@ -2,6 +2,7 @@ package com.web.board.service;
 
 
 import com.web.vo.BoardVO;
+import com.webjjang.util.PageObject;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Map;
 public interface BoardService {
 	
 //	//리스트
-	public List<?> list(BoardVO boardVO) throws Exception;
+	public List<BoardVO> list(PageObject pageObject) throws Exception;
 
 
 	public int write(BoardVO boardVO)throws Exception;

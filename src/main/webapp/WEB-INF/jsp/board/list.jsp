@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>QNA</title>
+  <ntt_sj>QNA</ntt_sj>
 
   <script src="http://code.jquery.com/jquery-latest.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
@@ -25,8 +26,8 @@
   <script type="text/javascript">
     $(function(){
       $(".dataRow").click(function(){
-        var no=$(this).find(".no").text();
-        location= "qnaView.do?no="+no+"&inc=1"
+        var ntt_id=$(this).find(".ntt_id").text();
+        location= "qnaView.do?ntt_id="+ntt_id+"&inc=1"
                 +"&page=${pageObject.page}"
                 +"&perPageNum=${pageObject.perPageNum}"
                 +"&key=${pageObject.key}"
@@ -81,31 +82,31 @@
           <th>조회수</th>
         </tr>
 
-        <c:forEach items="${list }"  var="vo">
+        <c:forEach items="${list}"  var="vo">
 
           <tr class="dataRow">
-            <td class="no">${vo.no}</td>
+            <td class="ntt_id">${vo.ntt_id}</td>
             <td style="width:50%; ">
 
 
-              <c:if test="${vo.cnt>0 }">
-                <span class="badge">${vo.cnt }</span>
-              </c:if>
-              <c:choose>
-                <c:when test="${vo.levNo!=0}">
-                  <c:forEach var="select" begin="0" end="${vo.levNo*2}">&nbsp;</c:forEach> <%--답글 깊이만큼 답글 : 표시 --%>
-                  ▶RE: </c:when>
-                <c:otherwise></c:otherwise> <%--그게아니면  ▶ --%>
-              </c:choose>
-              <a href="qnaList.do?no=${vo.no}&page=${pageObject.page}">
-                  ${vo.title}<%--내용을 클릭하면 boardDetail.bo?로 board_num과 nowPage get방식으로 전달 --%>
+<%--              <c:if test="${vo.cnt>0 }">--%>
+<%--                <span class="badge">${vo.cnt }</span>--%>
+<%--              </c:if>--%>
+<%--              <c:choose>--%>
+<%--                <c:when test="${vo.levNo!=0}">--%>
+<%--                  <c:forEach var="select" begin="0" end="${vo.levNo*2}">&nbsp;</c:forEach> &lt;%&ndash;답글 깊이만큼 답글 : 표시 &ndash;%&gt;--%>
+<%--                  ▶RE: </c:when>--%>
+<%--                <c:otherwise></c:otherwise> &lt;%&ndash;그게아니면  ▶ &ndash;%&gt;--%>
+<%--              </c:choose>--%>
+              <a href="qnaList.do?ntt_id=${vo.ntt_id}&page=${pageObject.page}">
+                  ${vo.ntt_sj}<%--내용을 클릭하면 boardDetail.bo?로 board_num과 nowPage get방식으로 전달 --%>
               </a>
 
 
             </td>
-            <td>${vo.mem_id }</td>
-            <td><fmt:formatDate value="${vo.writeDate }" pattern="yyyy-MM-dd"/></td>
-            <td>${vo.hit}</td>
+            <td></td>
+            <td><fmt:formatDate value="${vo.crt_dt }" pattern="yyyy-MM-dd"/></td>
+            <td></td>
           </tr>
 
         </c:forEach>

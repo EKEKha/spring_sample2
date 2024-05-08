@@ -3,18 +3,25 @@
 
 <mapper namespace="com.web.mappers.BoardMapper">
 	<select id="list" resultType="com.web.vo.BoardVO">
-		select no,title,mem_id,writeDate,hit,levNo
-		from(
-			select rownum rnum,no,title,mem_id,writeDate,hit,levNo
-			from(
-			select no,title,mem_id,writeDate,hit,levNo
-			from qboard
-			order by refNo desc,ordNo
-			)
-			)where rnum between #{startRow} and #{endRow}
+		SELECT
+			NTT_ID
+		   ,ntt_no
+		   ,ntt_sj
+		   ,ntt_cn
+		   ,parent_no
+		   ,notice_yn
+		   ,atch_file_id
+		   ,temp_col_1
+		   ,temp_col_2
+		   ,crt_id
+		   ,crt_dt
+		FROM SCMS_BBS
+		WHERE del_yn='N'
+		ORDER BY crt_dt DESC
+
 	</select>
 
-	<insert id="write" >
+	<insert id="write"  useGeneratedKeys="true" keyProperty="ntt_id">
 		INSERT INTO SCMS_BBS
 		  ( 	NTT_SJ
 				, NTT_CN
@@ -31,18 +38,18 @@
 			)
 		VALUES
 		    (
-		        #{nttSj}
-			  , #{nttCn}
-			  , #{nttNo}
-			  , #{parentNo}
-			  , #{noticeYn}
-			  , #{AtchFileId}
-			  , #{tempCol1}
-			  , #{tempCol2}
+		        #{ntt_sj}
+			  , #{ntt_cn}
+			  , 1
+			  , #{ntt_id}
+			  , #{notice_yn}
+			  , #{atch_file_id}
+			  , #{temp_col_1}
+			  , #{temp_col_2}
 			  ,'N'
-			  ,	#{crtId}
+			  ,	#{crt_id}
 			  , NOW()
-			  , #{crtIpAddr}
+			  , #{crt_ip_addr}
 			)
 	</insert>
 
