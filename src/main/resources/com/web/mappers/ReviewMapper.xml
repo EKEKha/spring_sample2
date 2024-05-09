@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web.mappers.ReviewMapper">
+
+	<select id="list" resultType="com.web.vo.ReviewVO" >
+		select board_no,prod_id,mem_id,rev_content,rev_score,rev_date,rev_fileName
+		from(
+			select rownum rnum,board_no,prod_id,mem_id,rev_content,rev_score,rev_date,rev_fileName,rev_originName
+			from(
+				select board_no,prod_id,mem_id,rev_content,rev_score,rev_date,rev_fileName,rev_originName
+				from review 
+				order by board_no desc
+				
+			)
+		)where rnum between #{startRow} and #{endRow}	
+	</select>
+	
+	<!-- 전체 데이터 개수 -->
+	<select id="getTotalRow" resultType="long">
+		select count(*)
+		from review
+	</select>
+	
+	
+	<!-- 상세보기-->
+	<select id="view" resultType="com.web.vo.ReviewVO">
+		select *
+		from review
+		where board_no=#{board_no}
+	</select>
+	
+	
+	<!-- write -->
+	<insert id="write">
+		insert into review(board_no,prod_id,mem_id,rev_content,rev_score,rev_date,rev_fileName,rev_originName)
+		values(rev_seq.nextval,#{prod_id},#{mem_id},#{rev_content},#{rev_score},default,#{rev_fileName},#{rev_originName})
+	</insert>
+	
+	<update id="update">
+		update review set rev_content=#{rev_content},rev_score=#{rev_score},rev_fileName=#{rev_fileName},rev_originName=#{rev_originName}
+		where board_no=#{board_no}
+	</update>
+	
+	
+	<!-- delete -->
+	
+	<delete id="delete">
+		delete from review
+		where board_no=#{board_no}
+	</delete>
+	
+	<!-- <sql id="search">
+		검색을 해야할 때 (word)가 비어있지 않을때  where문을 붙인다.
+		<if test="word !=null and word !=''">
+			or,like
+			where 1=0
+				<if test="key.indexOf('t'.toString())>=0">존재한다
+				 	or title like ${"'%" + word + "%'"} 처리해서 처리되 결과를 쓸때는 # 대신 $를 쓴다.
+				</if>
+				<if test="key.indexOf('c'.toString())>=0">존재한다
+				 	or content like ${"'%" + word + "%'"} 처리해서 처리되 결과를 쓸때는 # 대신 $를 쓴다.
+				</if>
+				<if test="key.indexOf('f'.toString())>=0">존재한다
+				 	or fileName like ${"'%" + word + "%'"} 처리해서 처리되 결과를 쓸때는 # 대신 $를 쓴다.
+				</if>
+		</if>
+	</sql>
+	
+	
+	
+
+
+	imageChnage 처리
+	<update id="imageChange">
+		update image set filename=#{fileName}
+		where no=#{no}
+	</update>
+	
+	write
+	<insert id="write">
+		insert into image(no,title,content,id,fileName)
+		values(image_seq.nextval, #{title},#{content},#{id},#{fileName})
+	</insert>
+
+	update
+	<update id="update">
+		update image set title=${title}, content=#{content}
+		where no=#{no}
+	</update>
+	
+ -->
+
+</mapper>

@@ -47,7 +47,7 @@
             </div>
             <div class="col-lg-6 text-lg-end">
                 <p>
-                    <a href="productList.do?prod_kind=racket"
+                    <a href="/productList.do?prod_kind=racket"
                        class="btn btn-primary text-white py-3 px-4">View all
                         properties</a>
                 </p>
@@ -92,7 +92,7 @@
                                         </div>
 
                                         <a
-                                                href="prodcutDetail.do?prod_id=${vo.prod_id }"
+                                                href="/prodcutDetail.do?prod_id=${vo.prod_id }"
                                                 class="btn btn-primary py-2 px-3"
                                         >See details</a
                                         >

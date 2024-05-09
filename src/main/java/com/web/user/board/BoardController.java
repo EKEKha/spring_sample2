@@ -1,27 +1,25 @@
-package com.web.board;
+package com.web.user.board;
 
 
 import com.sun.org.slf4j.internal.Logger;
 import com.sun.org.slf4j.internal.LoggerFactory;
-import com.web.board.service.BoardService;
+import com.web.user.board.service.BoardService;
 import com.web.vo.BoardVO;
 import com.webjjang.util.PageObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class BoardController {
 
     private static final Logger logger= LoggerFactory.getLogger(BoardController.class);
 
-    @Autowired
+    @Resource
     private BoardService boardServiceImpl;
 
     @RequestMapping("/board/list.do")
@@ -67,6 +65,6 @@ public class BoardController {
         boardServiceImpl.write(boardVO);
 
 
-        return "redirect:/main.do";
+        return "redirect:/board/list.do";
     }
 }

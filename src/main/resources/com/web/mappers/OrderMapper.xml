@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web.mappers.OrderMapper">
+	
+	<insert id="orderInsert">
+		insert into order_item(order_id,mem_id,o_name,o_phone,o_email,o_address1,o_address2,o_address3,totalPrice,usePoint,o_require)
+		values
+		(#{order_id},#{mem_id},#{o_name},#{o_phone},#{o_email},#{o_address1},#{o_address2},#{o_address3},
+		#{totalPrice},#{usePoint},#{o_require})
+		</insert>
+	
+	<!-- <insert id="orderDetailInsert">
+		insert into order_detail(order_detailNum,order_id,prod_id,prod_name,o_amount)values 
+		<foreach collection="list" item="item" sep		arator=",">
+		(ordNum_seq.nextval,${item.order_id},${item.prod_id},${item.prod_name},${item.o_amount})
+		</foreach>
+	</insert> -->
+	
+	<insert id="orderDetailInsert" parameterType="java.util.Map">
+insert into order_detail(order_detailNum,order_id,prod_id,prod_name,o_amount)
+select ordNum_seq.nextval, A.* from(
+ <foreach item="item" collection="list" separator="UNION ALL" >
+   select #{item.order_id} as order_id,
+          #{item.prod_id} as prod_id,
+          #{item.prod_name} as prod_name,
+          #{item.o_amount} as o_amount
+   from dual
+ </foreach>) A
+</insert>
+<!-- 
+	
+	<resultMap type="com.web.vo.MemberVO" id="MemberVO">
+	<result column="mem_id" property="mem_id"/>
+    <result column="mem_grade" property="mem_grade"/>
+	</resultMap>
+	
+	<resultMap type="com.web.vo.OrderVO" id="orderVO">
+    <result column="mem_id" property="mem_id"/>
+    <result column="totalPrice" property="totalPrice"/>
+    <collection property="memberVO" resultMap="MemberVO"></collection>
+    order클래스에서 참조변수선언한걸 property에... 결과가 한행이니까 association 가능..?
+	</resultMap>
+	
+	 -->
+	
+	<!-- 나의 주문내역,관리자모드 신규주문리스트 동시처리 -->
+	<select id="myOrderList" resultType="com.web.vo.OrderVO">
+	 	select order_id,mem_id,o_name,o_phone,o_email,o_address1,o_address2,o_address3,o_date,o_status,totalPrice,usePoint,o_require
+	 	from(
+		 	select rownum rnum,order_id,mem_id,o_name,o_phone,o_email,o_address1,o_address2,o_address3,o_date,o_status,totalPrice,usePoint,o_require
+		 	from(
+			 	select order_id,mem_id,o_name,o_phone,o_email,o_address1,o_address2,o_address3,o_date,o_status,totalPrice,usePoint,o_require
+			 	from order_item
+			 	
+			 	<choose>
+			 		<when test="mem_id!=null and mem_id !=''">
+				 	where mem_id=#{mem_id}
+				 	and o_date between trunc(add_months(sysdate,-5)+1)-to_char(sysdate,'DD')
+				 	and trunc(last_day(sysdate))+0.99999421
+			 		</when>
+			 		<otherwise>
+			 		where to_char(o_date,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd')
+			 		</otherwise>
+			 	</choose>
+			 	
+			 	order by o_date desc
+			)
+		)where rnum between #{pageObject.startRow} and #{pageObject.endRow}		
+	</select>
+	
+	<!-- 나의주문내역 페이지처리 -->
+	<select id="getTotalRow" resultType="long" >
+		select count(*)
+		from order_item 
+		<choose>
+			 		<when test="mem_id!=null and mem_id !=''">
+				 	where mem_id=#{mem_id}
+			 		</when>
+			 		<otherwise>
+			 		where to_char(o_date,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd')
+			 		</otherwise>
+			 	</choose>
+		
+	
+	</select>
+	
+	<!-- 나의 상세주문내역 -->
+	<select id="getOrder" resultType="com.web.vo.OrderVO" >
+		select *
+		from order_item
+		where order_id=#{order_id}
+	</select>
+	
+	
+	<select id="getOrderDetail" resultType="com.web.vo.OrderDetailVO" >
+		select *
+		from order_detail
+		where order_id=#{order_id}
+	</select>
+	<!--=============-->
+	
+	
+	<!-- 주무상태변경 -->
+	<update id="updateStatus">
+	 	update order_item
+	 	set o_status=
+		<if test='o_status=="1"'>
+		'주문취소'
+		</if>
+		where order_id=#{order_id}
+	</update>	
+	
+	<!-- 
+	
+	<resultMap type="com.web.vo.MemberVO" id="MemberVO">
+	<result column="mem_id" property="mem_id"/>
+    <result column="mem_grade" property="mem_grade"/>
+	</resultMap>
+	
+	<resultMap type="com.web.vo.OrderVO" id="orderVO">
+    <result column="mem_id" property="mem_id"/>
+    <result column="totalPrice" property="totalPrice"/>
+    <collection property="memberVO" resultMap="MemberVO"></collection>
+    order클래스에서 참조변수선언한걸 property에... 결과가 한행이니까 association 가능..?
+	</resultMap>
+	 -->
+	
+	
+	 
+	<resultMap type="com.web.vo.OrderVO" id="orderVO">
+		<id column="order_id" property="order_id"/>
+		<result column="mem_id" property="mem_id"/>
+    	<result column="totalPrice" property="totalPrice"/>
+    	
+    	<association property="memberVO" javaType="com.web.vo.MemberVO">
+    	<id column="mem_id" property="mem_id"/>
+   		 <result column="mem_grade" property="mem_grade"/>
+    	</association>
+    	
+    	<collection property="orderDetailList" javaType="List" ofType="com.web.vo.OrderDetailVO">
+    	<id column="order_detailNum" property="order_detailNum"/>
+		<result column="order_id" property="order_id"/>
+	    <result column="prod_id" property="prod_id"/>
+	    <result column="prod_price" property="prod_price"/>
+	    <result column="o_amount" property="o_amount"/>
+	    <result column="prod_name" property="prod_name"/>
+    	</collection>
+	
+	</resultMap> 
+	
+ <resultMap type="com.web.vo.OrderDetailVO" id="orderDetail">
+	
+	<result column="order_id" property="order_id"/>
+	    <result column="prod_id" property="prod_id"/>
+	    <result column="prod_price" property="prod_price"/>
+	    <result column="o_amount" property="o_amount"/>
+	    <result column="prod_name" property="prod_name"/>
+	</resultMap>
+	
+	<select id="orderItemList" parameterType="java.util.Map" fetchSize="100" resultMap="orderDetail">
+		select
+			distinct(d.prod_id),
+			d.prod_name
+		from
+			order_item o
+			inner join
+			order_detail d
+			on
+			o.order_id=d.order_id
+		where o.mem_id=#{mem_id}
+		
+	</select>
+	
+	
+	<!-- 회원 등급조정을 위한 총구매금액 구하기 -->
+		<select id="memberTotalMoney" resultMap="orderVO">
+		
+		select a.mem_id,a.mem_grade,nvl(sum(b.totalPrice),0)as totalPrice
+		from member a left join order_item b
+		on a.mem_id=b.mem_id
+		group by a.mem_id,a.mem_grade
+		having a.mem_id=#{mem_id}
+	
+		</select>
+	
+	
+	<!-- 당일주문건 금액 구하기 -->
+	<select id ="todayTotal" resultType="long">
+	 	select nvl(sum(totalPrice),0)
+	 	from order_item
+	 	group by to_char(o_date,'yyyy-mm-dd')
+	 	having to_char(o_date,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd')
+	</select>
+</mapper>

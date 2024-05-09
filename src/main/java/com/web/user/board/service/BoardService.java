@@ -1,4 +1,4 @@
-package com.web.board.service;
+package com.web.user.board.service;
 
 
 import com.web.vo.BoardVO;

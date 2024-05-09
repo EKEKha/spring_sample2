@@ -1,4 +1,4 @@
-package com.web.board.service;
+package com.web.user.board.service;
 
 import com.web.mappers.BoardMapper;
 
@@ -7,9 +7,7 @@ import com.webjjang.util.PageObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class BoardServiceImpl implements BoardService {

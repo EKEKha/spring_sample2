@@ -4,7 +4,7 @@
 <mapper namespace="com.web.mappers.BoardMapper">
 	<select id="list" resultType="com.web.vo.BoardVO">
 		SELECT
-			NTT_ID
+			ntt_id
 		   ,ntt_no
 		   ,ntt_sj
 		   ,ntt_cn
@@ -22,8 +22,13 @@
 	</select>
 
 	<insert id="write"  useGeneratedKeys="true" keyProperty="ntt_id">
+		<selectKey keyProperty="ntt_id" resultType="Integer" order="BEFORE">
+			SELECT IFNULL(MAX(ntt_id),0) + 1 FROM SCMS_BBS
+		</selectKey>
+
 		INSERT INTO SCMS_BBS
-		  ( 	NTT_SJ
+		  ( 	NTT_ID
+				, NTT_SJ
 				, NTT_CN
 				, NTT_NO
 				, PARENT_NO
@@ -38,7 +43,8 @@
 			)
 		VALUES
 		    (
-		        #{ntt_sj}
+		        #{ntt_id}
+			  , #{ntt_sj}
 			  , #{ntt_cn}
 			  , 1
 			  , #{ntt_id}

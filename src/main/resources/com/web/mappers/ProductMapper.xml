@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web.mappers.ProductMapper">
+	
+	<!-- 상품게시판 -->
+	<select id="list" resultType="com.web.vo.ProductVO" >
+		select prod_id,prod_name,prod_kind,prod_price,prod_amount,prod_content,prod_image,prod_status,prod_date
+		from(
+			select rownum rnum,prod_id,prod_name,prod_kind,prod_price,prod_amount,prod_content,prod_image,prod_status,prod_date
+			from(
+				select prod_id,prod_name,prod_kind,prod_price,prod_amount,prod_content,prod_image,prod_status,prod_date
+				from product 
+				where prod_kind=#{prod_kind} and prod_status='y'
+				order by prod_id desc
+			
+			)
+		)where rnum between #{pageObject.startRow} and #{pageObject.endRow}	
+	</select>
+	
+	<!-- 전체 데이터 개수 -->
+	<select id="getTotalRow" resultType="long" >
+		select count(*)
+		from product where prod_kind=#{prod_kind} and prod_status='y'
+	
+	</select>
+	
+	
+	
+	<select id="mainList" resultType="com.web.vo.ProductVO" >
+
+		
+		
+			select prod_id,prod_name,prod_kind,prod_price,prod_amount,prod_content,prod_image,prod_status,prod_date,main_nb
+		from(
+			select rownum rnum,prod_id,prod_name,prod_kind,prod_price,prod_amount,prod_content,prod_image,prod_status,prod_date,main_nb
+			from(
+				select prod_id,prod_name,prod_kind,prod_price,prod_amount,prod_content,prod_image,prod_status,prod_date, main_nb
+				from product 
+				where main_nb='y'
+				order by prod_date desc
+			
+			)
+		)where rnum between 1 and 6	
+		
+		
+		
+	</select>
+	
+	<select id="mainTotal" resultType="long" >
+		select count(*)
+		from product where main_nb='y'
+	
+	</select>
+	
+	
+	
+	
+	
+	<!-- 가격순  -->
+	<select id="reList" resultType="com.web.vo.ProductVO" >
+		select prod_id,prod_name,prod_kind,prod_price,prod_amount,prod_content,prod_image,prod_status,prod_date
+		from(
+			select rownum rnum,prod_id,prod_name,prod_kind,prod_price,prod_amount,prod_content,prod_image,prod_status,prod_date
+			from(
+				select prod_id,prod_name,prod_kind,prod_price,prod_amount,prod_content,prod_image,prod_status,prod_date
+				from product 
+				where prod_kind=#{prod_kind} and prod_status='y'
+				
+				<if test='line=="1"'>
+				order by prod_price asc
+				</if>
+				<if test='line=="0"'>
+				order by prod_price desc
+				</if>
+				
+			
+			)
+		)where rnum between #{pageObject.startRow} and #{pageObject.endRow}	
+	</select>
+	
+	<!-- 상품상세보기 -->
+	<select id="view" resultType="com.web.vo.ProductVO">
+		select *
+		from product
+		where prod_id=#{prod_id}
+	</select>	
+	
+	<!-- 주문시 상품재고수량 감소 -->
+	<!-- <update id="updateQty">
+		update product set 
+		<foreach collection="list" item="item" separator=",">
+		prod_amount=prod_amount-#{item.o_amount}
+		where prod_id=#{item.prod_id}
+		</foreach>
+	
+	</update> -->
+	
+	<update id="updateQty" parameterType="java.util.List">
+    <foreach collection="list" item="item" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
+        UPDATE product
+        SET
+        prod_amount=prod_amount-#{item.o_amount}
+       where prod_id=#{item.prod_id}
+    </foreach>
+	</update>
+	
+
+
+	<!-- 상품등록하기 -->
+	<insert id="write">
+		insert into product (prod_id,prod_name,prod_kind,prod_price,prod_amount,prod_content,prod_image,prod_status,main_nb)
+		values (prod_seq.nextval,#{prod_name},#{prod_kind},#{prod_price},#{prod_amount},#{prod_content},#{prod_image},#{prod_status},#{main_nb})
+	</insert>
+	
+	
+	
+	<!-- 상품수정하기 -->
+	<update id="update">
+		update product
+			set prod_name=#{prod_name}
+			,prod_kind=#{prod_kind}
+			,prod_price=#{prod_price}
+			,prod_amount=#{prod_amount}
+			,prod_content=#{prod_content}
+			,prod_image=#{prod_image}
+			,prod_status=#{prod_status}
+			,main_nb=#{main_nb}
+		where prod_id=#{prod_id}
+	
+	</update>
+	
+	
+	<!-- 상품삭제하기 -->
+	<delete id="delete">
+		delete from product
+		where prod_id=#{prod_id}
+	
+	</delete>
+	
+	<!-- 관리자 상품 -->
+	<select id="adminList" resultType="com.web.vo.ProductVO" >
+		select prod_id,prod_name,prod_kind,prod_price,prod_amount,prod_content,prod_image,prod_status,prod_date,main_nb
+		from(
+			select rownum rnum,prod_id,prod_name,prod_kind,prod_price,prod_amount,prod_content,prod_image,prod_status,prod_date,main_nb
+			from(
+				select prod_id,prod_name,prod_kind,prod_price,prod_amount,prod_content,prod_image,prod_status,prod_date,main_nb
+				from product 
+				order by prod_id desc
+			
+			)
+		)where rnum between #{startRow} and #{endRow}	
+	</select>
+	
+	<!-- 전체 데이터 개수 -->
+	<select id="getTotalRowList" resultType="long" >
+		select count(*)
+		from product 
+	
+	</select>
+	
+
+</mapper>

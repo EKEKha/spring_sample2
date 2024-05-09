@@ -79,42 +79,42 @@
               <li class="has-children">
                 <a href="javascript:void(0)">서비스</a>
                 <ul class="dropdown">
-                  <li><a href="review/list.do">Review</a></li>
-                  <li><a href="board/list.do">QNA</a></li>
+                  <li><a href="/review/list.do">Review</a></li>
+                  <li><a href="/board/list.do">QNA</a></li>
                   
                   
                 </ul>
               </li>
               
               <c:if test="${login==null }">
-	               <li><a href="joinForm">회원가입</a></li>
-	              <li><a href="login">로그인</a></li>
+	               <li><a href="/joinForm">회원가입</a></li>
+	              <li><a href="/login">로그인</a></li>
               
               </c:if>
               
              
               <c:if test="${login!=null and login.mem_grade!=2}">
-				<li><a href="cartList.do">장바구니</a></li>
+				<li><a href="/cartList.do">장바구니</a></li>
 
 				<li class="has-children"><a href="/">${login.mem_id}님환영합니다.</a>
 					<ul class="dropdown">
-						<li><a href="mypage?mem_id=${login.mem_id}">마이페이지</a></li>
-						<li><a href="myOrder.do?mem_id=${login.mem_id }">주문내역</a></li>
-						<li><a href="logout">로그아웃</a></li>
+						<li><a href="/mypage?mem_id=${login.mem_id}">마이페이지</a></li>
+						<li><a href="/myOrder.do?mem_id=${login.mem_id }">주문내역</a></li>
+						<li><a href="/logout">로그아웃</a></li>
 					</ul>
 				</li>
 			 </c:if>
 			
 			
 			<c:if test="${login!=null and login.mem_grade==2}">
-				<li><a href="login">장바구니</a></li>
+				<li><a href="/login">장바구니</a></li>
 
 				<li class="has-children"><a href="/">관리자님
 						환영합니다.</a>
 					<ul class="dropdown">
 						<li><a href="">마이페이지</a></li>
-						<li><a href="admina">관리자페이지</a></li>
-						<li><a href="logout">로그아웃</a></li>
+						<li><a href="/admina">관리자페이지</a></li>
+						<li><a href="/logout">로그아웃</a></li>
 					</ul>
 				</li>
 			</c:if>

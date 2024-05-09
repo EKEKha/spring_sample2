@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web.mappers.PaymentMapper">
+	
+	<insert id="insert">
+		insert into payment (r_no,pay_status,order_id,pay_kind,pay_bank,realPrice,pay_name)
+		values (pay_seq.nextval,
+		<if test='pay_kind=="pay"'>
+			2
+		</if>
+		<if test='pay_kind=="cash"'>
+			0
+		</if>
+		,#{order_id},#{pay_kind},#{pay_bank},#{realPrice},#{pay_name})
+				
+
+	</insert>
+
+
+	<select id="getPayment" resultType="com.web.vo.PaymentVO" >
+		select *
+		from payment
+		where order_id=#{order_id}
+	</select>
+	
+	
+</mapper>
